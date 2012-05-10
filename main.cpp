@@ -19,7 +19,9 @@ public:
 int values_index = 0;
 
 int mock_tree_helper_function(const Node* node) {
-  return values_index++;
+  int v = values_index;  
+  values_index++;
+  return v;
 }
 
 

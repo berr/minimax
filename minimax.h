@@ -4,6 +4,7 @@
 #include <list>
 #include <exception>
 #include <limits>
+#include <iostream>
 
 namespace MiniMax {
 
@@ -68,7 +69,7 @@ namespace MiniMax {
 
     typename std::list<const MiniMaxNode*>::const_iterator it = children->begin();
     for(; it != children->end(); ++it) {
-      const MiniMaxNode* child = minimax_min(*it, next_nodes, helper_function, alpha, beta, next_depth);
+      const MiniMaxNode* child = minimax_max(*it, next_nodes, helper_function, alpha, beta, next_depth);
       if (child->rank() < beta) {
 	beta = child->rank();
 	if (best_child) delete best_child;
@@ -85,6 +86,8 @@ namespace MiniMax {
       // delete all remaining children
       delete *it;
     }
+
+    std::cout << "min @ depth=" << depth << " =" << best_child->rank() << std::endl;
 
     delete children;
     return best_child;
@@ -121,7 +124,7 @@ namespace MiniMax {
 
     typename std::list<const MiniMaxNode*>::const_iterator it = children->begin();
     for(; it != children->end(); ++it) {
-      const MiniMaxNode* child = minimax_max(*it, next_nodes, helper_function, alpha, beta, next_depth);
+      const MiniMaxNode* child = minimax_min(*it, next_nodes, helper_function, alpha, beta, next_depth);
       if (child->rank() > alpha) {
 	alpha = child->rank();
 	delete best_child;
@@ -138,6 +141,8 @@ namespace MiniMax {
       // delete all remaining children
       delete *it;
     }
+
+    std::cout << "max @ depth=" << depth << " =" << best_child->rank() << std::endl;
 
     delete children;
     return best_child;  
