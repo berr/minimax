@@ -33,7 +33,7 @@ std::list<const Node*>* mock_tree_next_nodes(const Node* n, int player) {
 }
 
 
-
+#include "connect4.h"
 
 int main() {
   Node start;

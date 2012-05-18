@@ -10,7 +10,7 @@ namespace MiniMax {
 
   enum Player {
 
-    MAX, MIN,
+    MAX, MIN, NONE,
 
   };
 
@@ -87,7 +87,7 @@ namespace MiniMax {
       delete *it;
     }
 
-    std::cout << "min @ depth=" << depth << " =" << best_child->rank() << std::endl;
+    std::cout << "min @ depth=" << 3 - depth << " =" << best_child->rank() << std::endl;
 
     delete children;
     return best_child;
@@ -142,7 +142,7 @@ namespace MiniMax {
       delete *it;
     }
 
-    std::cout << "max @ depth=" << depth << " =" << best_child->rank() << std::endl;
+    std::cout << "max @ depth=" << 3 - depth << " =" << best_child->rank() << std::endl;
 
     delete children;
     return best_child;  
