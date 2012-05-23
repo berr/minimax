@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QMessageBox>
 
+#include "connect4.h"
+
 namespace Ui {
     class MainWindow;
 }
@@ -17,7 +19,8 @@ public:
     ~MainWindow();
 
 private:
-    Ui::MainWindow *ui;
+  Ui::MainWindow *ui;
+  ConnectFour game;		    		    
 
 private slots:
     void on_back_button_clicked();

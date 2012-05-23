@@ -1,7 +1,9 @@
 #include "connect4.h"
 
-void State::play(int column, MiniMax::Player p) {
-  board[column]->push_back(p);
+State* State::play(int column, MiniMax::Player p) {
+  State* s = new State(*this);
+  s->board[column]->push_back(p);
+  return s;
 }
 
 list<const State*>* next_states(const State* s, MiniMax::Player p){
@@ -22,4 +24,35 @@ list<const State*>* next_states(const State* s, MiniMax::Player p){
     states = 0;
   }
   return states;  
+}
+
+ConnectFour::ConnectFour() : current_state(0), current_player(MiniMax::MAX) {
+  states.push_back(new State(7,7));
+}
+
+const State* ConnectFour::play(int column){
+  current_state++;
+  State* s = states[current_state]->play(column, current_player);
+  states.push_back(s);
+  
+  return s;
+}
+
+const State* ConnectFour::back(){
+  current_state--;
+  return states[current_state];
+}
+
+const State* ConnectFour::forward(){
+  current_state++;
+  return states[current_state];
+}
+
+const State* ConnectFour::reset(int width, int height){
+  State* first_state =  new State(width, height);
+  states.clear();
+  
+  current_player = MiniMax::MAX;
+  current_state = 0;
+  states.push_back(first_state);  
 }

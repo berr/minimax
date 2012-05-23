@@ -27,7 +27,7 @@ struct State {
     }
   }
 
-  void play(int column, MiniMax::Player p);
+  State* play(int column, MiniMax::Player p);
   
 
 };
@@ -36,5 +36,24 @@ struct State {
 list<const State*>* next_states(const State*, MiniMax::Player p);
 
 int utility_function(const State*);
+
+
+class ConnectFour {
+
+  int current_state;
+  std::vector<State*> states;
+  MiniMax::Player current_player;
+  
+public:
+
+  ConnectFour();
+
+  const State* play(int column);
+  const State* back();
+  const State* forward();
+  
+  const State* reset(int width, int height);
+
+};
 
 #endif

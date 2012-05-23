@@ -10,7 +10,7 @@ namespace MiniMax {
 
   enum Player {
 
-    MAX, MIN, NONE,
+    MAX=0, MIN=1, NONE=2,
 
   };
 
