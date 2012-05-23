@@ -2,6 +2,9 @@
 #include <iostream>
 #include <list>
 
+#include <QtGui/QApplication>
+#include "main_window.h"
+
 class Node {
 
   mutable int _rank;
@@ -35,11 +38,11 @@ std::list<const Node*>* mock_tree_next_nodes(const Node* n, int player) {
 
 #include "connect4.h"
 
-int main() {
-  Node start;
-  const Node* n = MiniMax::minimax<Node>(&start,MiniMax::MAX,mock_tree_next_nodes,mock_tree_helper_function, 2);
-
-  std::cout << "rank=" << n->rank() << std::endl;
+int main(int argc, char *argv[]) {
+  QApplication a(argc, argv);
+  MainWindow w;
+  w.show();
+  return a.exec();
 
   return 0;
 }
