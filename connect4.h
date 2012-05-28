@@ -16,6 +16,7 @@ struct State {
   vector<vector <MiniMax::Player>* > board;
   int height;
   int width;
+  mutable int _rank;
 
   State(int height, int width) : height(height) , width(width) { 
     for (int i = 0; i < width; ++i) {
@@ -34,20 +35,26 @@ struct State {
     }
   }
 
-  State* play(int column, MiniMax::Player p);
+  State* play(int column, MiniMax::Player p) const;
   
   void show();
+
+  int rank() const { return _rank; }
+  void rank(int r) const { _rank = r; }
 };
 
+namespace ConnectFourUtils{
 
-list<const State*>* next_states(const State*, MiniMax::Player p);
+  list<const State*>* next_states(const State*, MiniMax::Player p);
 
-int utility_function(const State*);
+  int utility_function(const State*);
+
+}
 
 
 class ConnectFour {
 
-  int current_state;
+  int _current_state;
   std::vector<State*> states;
   
 public:
@@ -60,7 +67,9 @@ public:
   
   const State* reset(int width, int height);
 
+  const State* current_state() const;
   MiniMax::Player current_player() const;
+
 
 };
 

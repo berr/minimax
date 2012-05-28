@@ -19,11 +19,11 @@ namespace MiniMax {
   const MiniMaxNode* minimax(
     const MiniMaxNode* start, 
     Player starting_player,
-    std::list<const MiniMaxNode*>* (next_nodes) (const MiniMaxNode*, int player),
+    std::list<const MiniMaxNode*>* (next_nodes) (const MiniMaxNode*, Player player),
     int (helper_function) (const MiniMaxNode*),
     int depth) {
 
-    std::list<const MiniMaxNode*>* children = next_nodes(start, 0);
+    std::list<const MiniMaxNode*>* children = next_nodes(start, starting_player);
     if (children == 0)  {
       return start;
     }
@@ -43,7 +43,7 @@ namespace MiniMax {
   template <class MiniMaxNode>
   const MiniMaxNode* minimax_min(
     const MiniMaxNode* start, 
-    std::list<const MiniMaxNode*>* (next_nodes) (const MiniMaxNode*, int player),
+    std::list<const MiniMaxNode*>* (next_nodes) (const MiniMaxNode*, Player player),
     int (helper_function) (const MiniMaxNode*),
     int alpha,
     int beta, 
@@ -97,7 +97,7 @@ namespace MiniMax {
   template <class MiniMaxNode>
   const MiniMaxNode* minimax_max(
     const MiniMaxNode* start, 
-    std::list<const MiniMaxNode*>* (next_nodes) (const MiniMaxNode*, int player),
+    std::list<const MiniMaxNode*>* (next_nodes) (const MiniMaxNode*, Player player),
     int (helper_function) (const MiniMaxNode*),
     int alpha,
     int beta, 

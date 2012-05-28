@@ -31,7 +31,26 @@ void MainWindow::on_reset_button_clicked() {
 }
 
 void MainWindow::on_play_button_clicked() {
-  draw_state(game.play(2));
+  int depth;
+
+  if (ui->full_search_cb->isChecked())
+    depth = -1;
+  else
+    depth = ui->depth_sp->value();
+
+  const State* play = MiniMax::minimax<State>(game.current_state(), game.current_player(), ConnectFourUtils::next_states, ConnectFourUtils::utility_function, depth);
+  const State* current_state = game.current_state();
+
+  int play_column = -1;
+
+  for(int i = 0; i < play->width; ++i){
+    if (play->board[i]->size() != current_state->board[i]->size()) {
+      play_column = i;
+      break;
+    }
+  }
+
+  draw_state(game.play(play_column));
 }
 
 void MainWindow::draw_state(const State* s) {
