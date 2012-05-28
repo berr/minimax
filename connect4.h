@@ -18,13 +18,13 @@ struct State {
   int width;
   mutable int _rank;
 
-  State(int height, int width) : height(height) , width(width) { 
+  State(int height, int width) : height(height) , width(width), _rank(-1) {
     for (int i = 0; i < width; ++i) {
       board.push_back(new vector<MiniMax::Player>());
     }
   } 
 
-  State(const State& s) {
+  State(const State& s) : _rank(-1){
     height = s.height;
     width = s.width;
     for (int i = 0; i < width; ++i) {
@@ -39,7 +39,10 @@ struct State {
   
   void show();
 
-  int rank() const { return _rank; }
+  int rank() const {
+    if (_rank < 0)
+      return _rank + 1;
+    return _rank; }
   void rank(int r) const { _rank = r; }
 };
 

@@ -6,6 +6,7 @@
 #include <limits>
 #include <iostream>
 
+
 namespace MiniMax {
 
   enum Player {
@@ -13,6 +14,7 @@ namespace MiniMax {
     MAX=0, MIN=1, NONE=2,
 
   };
+
 
 
   template <class MiniMaxNode>
@@ -26,9 +28,7 @@ namespace MiniMax {
     std::list<const MiniMaxNode*>* children = next_nodes(start, starting_player);
     if (children == 0)  {
       return start;
-    }
-    
-    
+    }    
     
     if (starting_player == MAX) {
       return minimax_max(start, next_nodes, helper_function, std::numeric_limits<int>::min(), std::numeric_limits<int>::max(), depth);
@@ -56,6 +56,7 @@ namespace MiniMax {
 
     std::list<const MiniMaxNode*>* children = next_nodes(start, MIN);
     if (children == 0) {
+      start->rank(helper_function(start));
       return start;
     }    
 
@@ -70,7 +71,7 @@ namespace MiniMax {
     typename std::list<const MiniMaxNode*>::const_iterator it = children->begin();
     for(; it != children->end(); ++it) {
       const MiniMaxNode* child = minimax_max(*it, next_nodes, helper_function, alpha, beta, next_depth);
-      if (child->rank() < beta) {
+      if (child->rank() <= beta) {
 	beta = child->rank();
 	if (best_child) delete best_child;
 	best_child = child;
@@ -110,6 +111,7 @@ namespace MiniMax {
 
     std::list<const MiniMaxNode*>* children = next_nodes(start, MAX);
     if (children == 0) {
+      start->rank(helper_function(start));
       return start;
     }    
 
@@ -125,7 +127,7 @@ namespace MiniMax {
     typename std::list<const MiniMaxNode*>::const_iterator it = children->begin();
     for(; it != children->end(); ++it) {
       const MiniMaxNode* child = minimax_min(*it, next_nodes, helper_function, alpha, beta, next_depth);
-      if (child->rank() > alpha) {
+      if (child->rank() >= alpha) {
 	alpha = child->rank();
 	delete best_child;
 	best_child = child;
@@ -148,5 +150,6 @@ namespace MiniMax {
     return best_child;  
   }
 
-};
+}
+
 #endif

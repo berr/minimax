@@ -2,8 +2,7 @@
 
 State* State::play(int column, MiniMax::Player p) const{
   State* s = new State(*this);  
-  s->board[column]->push_back(p);
-  s->show();
+  s->board[column]->push_back(p);  
   return s;
 }
 
@@ -40,6 +39,8 @@ const State* ConnectFour::play(int column){
   State* s = states[_current_state]->play(column, current_player());
   states.push_back(s);
   _current_state++;
+
+  s->show();
 
   return s;
 }
