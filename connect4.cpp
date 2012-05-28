@@ -86,13 +86,13 @@ const State* ConnectFour::current_state() const {
 }
 
 void State::show() const {
-  for (unsigned int i = 0; i < board.size(); ++i) {
-    for(unsigned int j = 0; j < board[i]->size(); ++j){
-      std::cout << board[i]->at(j) << " ";
-    }
-    for(unsigned int j = board[i]->size(); j < height; ++j){
-      std::cout << "- ";
-    }
+  for (unsigned int i = height - 1; i > 0; --i) {
+    for(unsigned int j = 0; j < width; ++j){
+      if (board[j]->size() > i)
+        std::cout << board[j]->at(i) << " ";
+      else
+        std::cout << "- ";
+    }    
     std::cout << std::endl;
   }
   std::cout << std::endl;
