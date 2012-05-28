@@ -36,21 +36,31 @@ ConnectFour::ConnectFour() : _current_state(0) {
 }
 
 const State* ConnectFour::play(int column){  
+  while(states.size() > _current_state + 1){
+    State* back = states.back();
+    states.pop_back();
+    delete back;
+  }
+
   State* s = states[_current_state]->play(column, current_player());
   states.push_back(s);
   _current_state++;
-
-  s->show();
 
   return s;
 }
 
 const State* ConnectFour::back(){
+  if(_current_state == 0)
+    return current_state();
+
   _current_state--;
   return states[_current_state];
 }
 
 const State* ConnectFour::forward(){
+  if(_current_state >= states.size() -1)
+    return current_state();
+
   _current_state++;
   return states[_current_state];
 }

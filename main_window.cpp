@@ -14,11 +14,11 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::on_forward_button_clicked() {
-  std::cout << "forward" << std::endl;
+  draw_state(game.forward());
 }
 
 void MainWindow::on_back_button_clicked() {
-  std::cout << "back" << std::endl;
+  draw_state(game.back());
 }
 
 void MainWindow::on_reset_button_clicked() {
