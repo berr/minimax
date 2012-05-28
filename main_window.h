@@ -29,6 +29,8 @@ private slots:
     void on_play_button_clicked();
 
     void draw_state(const State* s);
+
+    void play(int);
 };
 
 #endif // MAINWINDOW_H

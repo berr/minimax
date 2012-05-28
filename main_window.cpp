@@ -65,12 +65,20 @@ void MainWindow::draw_state(const State* s) {
 
   for(unsigned int j = 0; j < s->board.size(); ++j){
     for(unsigned int i = 0; i < s->board[j]->size(); ++i){
-      layout->addWidget(new PlayWidget(s->board.at(j)->at(i)), s->height - i, j);
+      PlayWidget* w = new PlayWidget(s->board.at(j)->at(i), j);
+      layout->addWidget(w, s->height - i, j);
+      connect(w, SIGNAL(clicked(int)), this, SLOT(play(int)));
     }
     for(unsigned int i = s->board[j]->size(); i < s->height; ++i){
-      layout->addWidget(new PlayWidget(MiniMax::NONE), s->height - i, j);
+      PlayWidget* w = new PlayWidget(MiniMax::NONE, j);
+      layout->addWidget(w, s->height - i, j);
+      connect(w, SIGNAL(clicked(int)), this, SLOT(play(int)));
     }
   }
 
+}
+
+void MainWindow::play(int column) {
+  draw_state(game.play(column));
 }
 

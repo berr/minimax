@@ -1,8 +1,9 @@
 #include "play_widget.h"
 #include <QPainter>
+#include <QMouseEvent>
 
-PlayWidget::PlayWidget(MiniMax::Player p, QWidget *parent) :
-    QWidget(parent)
+PlayWidget::PlayWidget(MiniMax::Player p, int column, QWidget *parent) :
+  QWidget(parent), column(column), _clicked(false)
 {  
   this->setAutoFillBackground(true);
 
@@ -14,6 +15,7 @@ PlayWidget::PlayWidget(MiniMax::Player p, QWidget *parent) :
     circle_color = QColor(255,255,255);
   }
 }
+
 
 void PlayWidget::paintEvent(QPaintEvent* event) {
   QWidget::paintEvent(event);
@@ -39,4 +41,19 @@ void PlayWidget::paintEvent(QPaintEvent* event) {
 
   painter.drawEllipse(width_difference / 2, height_difference / 2, width, height);
 
+}
+
+void PlayWidget::mouseDoubleClickEvent(QMouseEvent *){
+  emit clicked(column);
+}
+
+void PlayWidget::mousePressEvent(QMouseEvent* e) {
+  last_point_clicked = e->pos();
+}
+
+void PlayWidget::mouseReleaseEvent(QMouseEvent* e) {
+  if (e->pos().x() >= 0 && e->pos().x() <= width() &&
+      e->pos().y() >= 0 && e->pos().y() <= height()){
+    emit clicked(column);
+  }
 }
