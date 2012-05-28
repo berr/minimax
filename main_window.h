@@ -27,6 +27,8 @@ private slots:
     void on_forward_button_clicked();
     void on_reset_button_clicked();
     void on_play_button_clicked();
+
+    void reset_table(int width, int height);
 };
 
 #endif // MAINWINDOW_H

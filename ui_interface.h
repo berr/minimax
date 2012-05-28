@@ -1,8 +1,8 @@
 /********************************************************************************
 ** Form generated from reading UI file 'interface.ui'
 **
-** Created: Wed May 23 15:08:32 2012
-**      by: Qt User Interface Compiler version 4.7.2
+** Created: Sun May 27 21:42:36 2012
+**      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -57,7 +57,7 @@ public:
     QCheckBox *full_search_cb;
     QPushButton *play_button;
     QSpacerItem *verticalSpacer;
-    QFrame *frame;
+    QFrame *table_frame;
     QHBoxLayout *horizontalLayout;
     QMenuBar *menubar;
     QStatusBar *statusbar;
@@ -166,19 +166,21 @@ public:
 
         horizontalLayout_2->addWidget(frame_2);
 
-        frame = new QFrame(centralwidget);
-        frame->setObjectName(QString::fromUtf8("frame"));
-        frame->setFrameShape(QFrame::StyledPanel);
-        frame->setFrameShadow(QFrame::Raised);
-        horizontalLayout = new QHBoxLayout(frame);
+        table_frame = new QFrame(centralwidget);
+        table_frame->setObjectName(QString::fromUtf8("table_frame"));
+        table_frame->setFrameShape(QFrame::NoFrame);
+        table_frame->setFrameShadow(QFrame::Plain);
+        horizontalLayout = new QHBoxLayout(table_frame);
+        horizontalLayout->setSpacing(0);
+        horizontalLayout->setContentsMargins(0, 0, 0, 0);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
 
-        horizontalLayout_2->addWidget(frame);
+        horizontalLayout_2->addWidget(table_frame);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 800, 23));
+        menubar->setGeometry(QRect(0, 0, 800, 22));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
