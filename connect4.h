@@ -18,7 +18,7 @@ struct State {
   int width;
   mutable int _rank;
 
-  State(int height, int width) : height(height) , width(width), _rank(-1) {
+  State(int width, int height) : height(height) , width(width), _rank(-1) {
     for (int i = 0; i < width; ++i) {
       board.push_back(new vector<MiniMax::Player>());
     }
