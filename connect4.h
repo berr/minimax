@@ -37,13 +37,8 @@ struct State {
 
   State* play(int column, MiniMax::Player p) const;
   
-  void show();
+  void show() const;
 
-  int rank() const {
-    if (_rank < 0)
-      return _rank + 1;
-    return _rank; }
-  void rank(int r) const { _rank = r; }
 };
 
 namespace ConnectFourUtils{

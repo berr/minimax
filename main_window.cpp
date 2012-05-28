@@ -43,6 +43,8 @@ void MainWindow::on_play_button_clicked() {
 
   int play_column = -1;
 
+  play->show();
+
   for(int i = 0; i < play->width; ++i){
     if (play->board[i]->size() != current_state->board[i]->size()) {
       play_column = i;
