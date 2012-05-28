@@ -77,7 +77,8 @@ namespace MiniMax {
 	best_child = child;
       }
       if (alpha >= beta) {
-	best_child = *it;
+        // if alpha >= beta, beta has changed on this iteration and
+        // best_child has already been set
 	++it;
 	break; // pruning
       }
@@ -87,8 +88,6 @@ namespace MiniMax {
       // delete all remaining children
       delete *it;
     }
-
-    std::cout << "min @ depth=" << 3 - depth << " =" << best_child->rank() << std::endl;
 
     delete children;
     return best_child;
@@ -133,7 +132,8 @@ namespace MiniMax {
 	best_child = child;
       }
       if (alpha >= beta) {
-	best_child = *it;
+        // if alpha >= beta, beta has changed on this iteration and
+        // best_child has already been set
 	++it;
 	break; // pruning
       }
@@ -143,8 +143,6 @@ namespace MiniMax {
       // delete all remaining children
       delete *it;
     }
-
-    std::cout << "max @ depth=" << 3 - depth << " =" << best_child->rank() << std::endl;
 
     delete children;
     return best_child;  
