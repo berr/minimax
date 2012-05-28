@@ -9,6 +9,8 @@
 using std::vector;
 using std::list;
 
+#include <iostream>
+
 struct State {
 
   vector<vector <MiniMax::Player>* > board;
@@ -17,19 +19,24 @@ struct State {
 
   State(int height, int width) : height(height) , width(width) { 
     for (int i = 0; i < width; ++i) {
-      board.push_back(new vector<MiniMax::Player>(height));
+      board.push_back(new vector<MiniMax::Player>());
     }
   } 
 
-  State(const State& s) : height(s.height), width(s.width) {
+  State(const State& s) {
+    height = s.height;
+    width = s.width;
     for (int i = 0; i < width; ++i) {
-      board.push_back(new vector<MiniMax::Player>(*(s.board[i])));
+      board.push_back(new vector<MiniMax::Player>());
+      for (unsigned int j = 0; j < s.board[i]->size(); ++j){
+        board[i]->push_back(s.board.at(i)->at(j));
+      }
     }
   }
 
   State* play(int column, MiniMax::Player p);
   
-
+  void show();
 };
 
 
@@ -42,7 +49,6 @@ class ConnectFour {
 
   int current_state;
   std::vector<State*> states;
-  MiniMax::Player current_player;
   
 public:
 
@@ -53,6 +59,8 @@ public:
   const State* forward();
   
   const State* reset(int width, int height);
+
+  MiniMax::Player current_player() const;
 
 };
 

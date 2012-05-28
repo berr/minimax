@@ -1,10 +1,18 @@
 #include "play_widget.h"
 #include <QPainter>
 
-PlayWidget::PlayWidget(QWidget *parent) :
+PlayWidget::PlayWidget(MiniMax::Player p, QWidget *parent) :
     QWidget(parent)
 {  
   this->setAutoFillBackground(true);
+
+  if (p == MiniMax::MAX) {
+    circle_color = QColor(255,0,0);
+  } else if (p == MiniMax::MIN) {
+    circle_color = QColor(0,0,255);
+  } else {
+    circle_color = QColor(255,255,255);
+  }
 }
 
 void PlayWidget::paintEvent(QPaintEvent* event) {
@@ -20,7 +28,6 @@ void PlayWidget::paintEvent(QPaintEvent* event) {
   int height = this->height() * .9;
   int height_difference = this->height() - height;
 
-  QColor circle_color(255, 0 ,0);
   QBrush brush(circle_color);
   QPalette pallete(this->palette());
   pallete.setColor(QPalette::Background, QColor(255,255,255));

@@ -1,8 +1,9 @@
 #include "connect4.h"
 
 State* State::play(int column, MiniMax::Player p) {
-  State* s = new State(*this);
+  State* s = new State(*this);  
   s->board[column]->push_back(p);
+  s->show();
   return s;
 }
 
@@ -26,15 +27,15 @@ list<const State*>* next_states(const State* s, MiniMax::Player p){
   return states;  
 }
 
-ConnectFour::ConnectFour() : current_state(0), current_player(MiniMax::MAX) {
+ConnectFour::ConnectFour() : current_state(0) {
   states.push_back(new State(7,7));
 }
 
-const State* ConnectFour::play(int column){
-  current_state++;
-  State* s = states[current_state]->play(column, current_player);
+const State* ConnectFour::play(int column){  
+  State* s = states[current_state]->play(column, current_player());
   states.push_back(s);
-  
+  current_state++;
+
   return s;
 }
 
@@ -52,7 +53,26 @@ const State* ConnectFour::reset(int width, int height){
   State* first_state =  new State(width, height);
   states.clear();
   
-  current_player = MiniMax::MAX;
   current_state = 0;
   states.push_back(first_state);  
+
+  return first_state;
+}
+
+MiniMax::Player ConnectFour::current_player() const {
+  if (current_state % 2 == 0)
+    return MiniMax::MAX;
+  return MiniMax::MIN;
+}
+
+void State::show() {  
+  for (unsigned int i = 0; i < board.size(); ++i) {
+    for(unsigned int j = 0; j < board[i]->size(); ++j){
+      std::cout << board[i]->at(j) << " ";
+    }
+    for(unsigned int j = board[i]->size(); j < height; ++j){
+      std::cout << MiniMax::NONE << " ";
+    }
+    std::cout << std::endl;
+  }
 }

@@ -25,28 +25,33 @@ void MainWindow::on_reset_button_clicked() {
   int height = ui->table_height_sp->value();
   int width = ui->table_width_sp->value();
 
-  game.reset(width, height);
+  const State* s = game.reset(width, height);
 
-  reset_table(width, height);
+  draw_state(s);
 }
 
 void MainWindow::on_play_button_clicked() {
-  std::cout << "play" << std::endl;
+  draw_state(game.play(2));
 }
 
-void MainWindow::reset_table(int width, int height) {
+void MainWindow::draw_state(const State* s) {
   QLayout* old_layout = ui->table_frame->layout();
   if (old_layout)
     delete old_layout;
 
   QGridLayout* layout = new QGridLayout(ui->table_frame);
+  layout->setMargin(0);
   layout->setSpacing(0);
   layout->setVerticalSpacing(0);
 
-  for(int i = 0; i < width; ++i){
-    for(int j = 0; j < height; ++j){
-      layout->addWidget(new PlayWidget(), j, i);
+  for(unsigned int j = 0; j < s->board.size(); ++j){
+    for(unsigned int i = 0; i < s->board[j]->size(); ++i){
+      layout->addWidget(new PlayWidget(s->board.at(j)->at(i)), s->height - i, j);
+    }
+    for(unsigned int i = s->board[j]->size(); i < s->height; ++i){
+      layout->addWidget(new PlayWidget(MiniMax::NONE), s->height - i, j);
     }
   }
+
 }
 

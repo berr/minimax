@@ -3,12 +3,18 @@
 
 #include <QWidget>
 #include <QFrame>
+#include <QColor>
+#include <QPainter>
+#include "minimax.h"
 
 class PlayWidget : public QWidget
 {
     Q_OBJECT
+
+private:
+    QColor circle_color;
 public:
-    explicit PlayWidget(QWidget *parent = 0);
+    explicit PlayWidget(MiniMax::Player, QWidget *parent = 0);
 
 protected:
     void paintEvent(QPaintEvent *);
