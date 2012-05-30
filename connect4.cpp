@@ -26,7 +26,33 @@ list<const State*>* ConnectFourUtils::next_states(const State* s, MiniMax::Playe
 }
 
 
-int ConnectFourUtils::utility_function(const State *) {
+int ConnectFourUtils::utility_function(const State * s) {
+  int JOGADO = 0;
+  int OUTRO = 1;
+  vector< vector <int> > sequence_counters;
+
+  int count_player = 0;
+  int count_opponent = 0;
+
+  //vertical count
+  for(int i = 0; i < s->width; i++) {
+    for(int j = 0; i < s->board[i]->size(); i++) {
+	  if(s->board[i]->at(j) == JOGADO) {
+	    count_player++;
+	    count_opponent = 0;
+	  } else {
+		count_opponent++;
+		count_player = 0;
+	  }
+	}
+    if(count_player > 0)
+	  sequence_counters[JOGADO][count_player] += 1;
+	if(count_opponent > 0)
+	  sequence_counters[OUTRO][count_opponent] += 1;
+  }
+
+  //horizontal count
+
   // should be done here
   return 2;
 }
