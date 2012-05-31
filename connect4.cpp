@@ -1,9 +1,22 @@
 #include "connect4.h"
+#include <stdexcept>
+#include <limits>
 
 State* State::play(int column, MiniMax::Player p) const{
   State* s = new State(*this);  
   s->board[column]->push_back(p);  
   return s;
+}
+
+
+MiniMax::Player State::at(int column, int row) const{
+  MiniMax::Player result; 
+  try {
+    result = this->board[column]->at(row);
+  } catch (std::out_of_range& oor) {
+	result = MiniMax::NONE;
+  }
+  return result;
 }
 
 list<const State*>* ConnectFourUtils::next_states(const State* s, MiniMax::Player p){
@@ -26,35 +39,47 @@ list<const State*>* ConnectFourUtils::next_states(const State* s, MiniMax::Playe
 }
 
 
-int ConnectFourUtils::utility_function(const State * s) {
-  int JOGADO = 0;
-  int OUTRO = 1;
-  vector< vector <int> > sequence_counters;
-
+int ConnectFourUtils::utility_function(const State * s, MiniMax::Player p) {
+  int score = 0;
   int count_player = 0;
   int count_opponent = 0;
 
   //vertical count
   for(int i = 0; i < s->width; i++) {
-    for(int j = 0; i < s->board[i]->size(); i++) {
-	  if(s->board[i]->at(j) == JOGADO) {
-	    count_player++;
-	    count_opponent = 0;
-	  } else {
-		count_opponent++;
-		count_player = 0;
+    for(int j = 0; j < s->board[i]->size(); j++) {
+	  try {
+	    if(s->at(i,j) == p) {
+	      count_player++;
+	      count_opponent = 0;
+	    } else {
+		  count_opponent++;
+		  count_player = 0;
+	    }
+	  } catch (std::out_of_range& oor) {
+	    count_player = 0;
+		count_opponent = 0;
 	  }
 	}
     if(count_player > 0)
-	  sequence_counters[JOGADO][count_player] += 1;
+	  score += count_player^count_player;
 	if(count_opponent > 0)
-	  sequence_counters[OUTRO][count_opponent] += 1;
+	  score -= count_opponent^count_opponent;
+	if(count_player >= 4)
+	  score = std::numeric_limits<int>::max();
+	if(count_opponent >= 4)
+	  score = std::numeric_limits<int>::min();
+	std::cout << score << std::endl;
   }
 
   //horizontal count
+  /*
+  for(int j = 0; j < s->height; j++) {
+    for(int i = 0; i < s->width; i++) {
+	}
+  }
+  */
 
-  // should be done here
-  return 2;
+  return score;
 }
 
 ConnectFour::ConnectFour() : _current_state(0) {

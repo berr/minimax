@@ -31,7 +31,7 @@ namespace MiniMax {
     const T* start,
     Player starting_player,
     std::list<const T*>* (next_nodes) (const T*, Player player),
-    int (helper_function) (const T*),
+    int (helper_function) (const T*, Player p),
     int depth) {
 
     std::list<const T*>* children = next_nodes(start, starting_player);
@@ -40,9 +40,9 @@ namespace MiniMax {
     }    
     
     if (starting_player == MAX) {
-      return minimax_max(start, next_nodes, helper_function, std::numeric_limits<int>::min(), std::numeric_limits<int>::max(), depth)->el;
+      return minimax_max(start, starting_player, next_nodes, helper_function, std::numeric_limits<int>::min(), std::numeric_limits<int>::max(), depth)->el;
     } else {
-      return minimax_min(start, next_nodes, helper_function, std::numeric_limits<int>::min(), std::numeric_limits<int>::max(), depth)->el;
+      return minimax_min(start, starting_player, next_nodes, helper_function, std::numeric_limits<int>::min(), std::numeric_limits<int>::max(), depth)->el;
     }
   
 
@@ -52,19 +52,20 @@ namespace MiniMax {
   template <class T>
   MiniMaxNode<T>* minimax_min(
     const T* start,
+    Player starting_player,
     std::list<const T*>* (next_nodes) (const T*, Player player),
-    int (helper_function) (const T*),
+    int (helper_function) (const T*, Player p),
     int alpha,
     int beta, 
     int depth) {
     
     if (depth == 0) {
-      return new MiniMaxNode<T>(start, helper_function(start));
+      return new MiniMaxNode<T>(start, helper_function(start, starting_player));
     }
 
     std::list<const T*>* children = next_nodes(start, MIN);
     if (children == 0) {
-      return new MiniMaxNode<T>(start, helper_function(start));
+      return new MiniMaxNode<T>(start, helper_function(start, starting_player));
     }    
 
     int next_depth;
@@ -77,7 +78,7 @@ namespace MiniMax {
 
     typename std::list<const T*>::const_iterator it = children->begin();
     for(; it != children->end(); ++it) {
-      MiniMaxNode<T>* child = minimax_max(*it, next_nodes, helper_function, alpha, beta, next_depth);
+      MiniMaxNode<T>* child = minimax_max(*it, starting_player, next_nodes, helper_function, alpha, beta, next_depth);
       if (child->rank() <= beta) {        
 	beta = child->rank();
 	if (best_child) delete best_child;
@@ -106,19 +107,20 @@ namespace MiniMax {
   template <class T>
   MiniMaxNode<T>* minimax_max(
     const T* start,
+    Player starting_player,
     std::list<const T*>* (next_nodes) (const T*, Player player),
-    int (helper_function) (const T*),
+    int (helper_function) (const T*, Player p),
     int alpha,
     int beta, 
     int depth) {
   
     if (depth == 0) {
-      return new MiniMaxNode<T>(start, helper_function(start));
+      return new MiniMaxNode<T>(start, helper_function(start, starting_player));
     }
 
     std::list<const T*>* children = next_nodes(start, MAX);
     if (children == 0) {
-      return new MiniMaxNode<T>(start, helper_function(start));
+      return new MiniMaxNode<T>(start, helper_function(start, starting_player));
     }    
 
     int next_depth;
@@ -132,7 +134,7 @@ namespace MiniMax {
 
     typename std::list<const T*>::const_iterator it = children->begin();
     for(; it != children->end(); ++it) {
-      const MiniMaxNode<T>* child = minimax_min(*it, next_nodes, helper_function, alpha, beta, next_depth);
+      const MiniMaxNode<T>* child = minimax_min(*it, starting_player, next_nodes, helper_function, alpha, beta, next_depth);
       if (child->rank() >= alpha) {
 	alpha = child->rank();
         if(best_child) delete best_child;

@@ -37,6 +37,8 @@ struct State {
 
   State* play(int column, MiniMax::Player p) const;
   
+  MiniMax::Player at(int column, int row) const;
+
   void show() const;
 
 };
@@ -45,7 +47,7 @@ namespace ConnectFourUtils{
 
   list<const State*>* next_states(const State*, MiniMax::Player p);
 
-  int utility_function(const State*);
+  int utility_function(const State* s, MiniMax::Player p);
 
 }
 
