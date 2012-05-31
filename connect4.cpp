@@ -1,6 +1,10 @@
 #include "connect4.h"
 #include <stdexcept>
 #include <limits>
+#include <math.h>
+
+#define MAX_INT std::numeric_limits<int>::max()
+#define MIN_INT std::numeric_limits<int>::min()
 
 State* State::play(int column, MiniMax::Player p) const{
   State* s = new State(*this);  
@@ -35,6 +39,7 @@ list<const State*>* ConnectFourUtils::next_states(const State* s, MiniMax::Playe
     delete states;
     states = 0;
   }
+
   return states;  
 }
 
@@ -60,25 +65,19 @@ int ConnectFourUtils::utility_function(const State * s, MiniMax::Player p) {
 		count_opponent = 0;
 	  }
 	}
-    if(count_player > 0)
-	  score += count_player^count_player;
-	if(count_opponent > 0)
-	  score -= count_opponent^count_opponent;
-	if(count_player >= 4)
-	  score = std::numeric_limits<int>::max();
-	if(count_opponent >= 4)
-	  score = std::numeric_limits<int>::min();
-	std::cout << score << std::endl;
-  }
-
-  //horizontal count
-  /*
-  for(int j = 0; j < s->height; j++) {
-    for(int i = 0; i < s->width; i++) {
+    if(count_player > 0) {
+	  if(count_player >= 4)
+	    return MAX_INT;
+	  score += pow(count_player,count_player);
+	}
+	if(count_opponent > 0) {
+	  if(count_opponent >= 4)
+	    return MIN_INT;
+	  score -= pow(count_opponent,count_opponent);
 	}
   }
-  */
 
+  //missing horizontal, left and right diagonal counts
   return score;
 }
 
