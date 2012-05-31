@@ -47,7 +47,7 @@ namespace ConnectFourUtils{
 
   list<const State*>* next_states(const State*, MiniMax::Player p);
 
-  int utility_function(const State* s, MiniMax::Player p);
+  long int utility_function(const State* s, MiniMax::Player p);
 
 }
 

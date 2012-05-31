@@ -1,6 +1,7 @@
 #include "connect4.h"
 #include <stdexcept>
 #include <limits>
+#include <math.h>
 
 State* State::play(int column, MiniMax::Player p) const{
   State* s = new State(*this);  
@@ -39,12 +40,76 @@ list<const State*>* ConnectFourUtils::next_states(const State* s, MiniMax::Playe
 }
 
 
-int ConnectFourUtils::utility_function(const State * s, MiniMax::Player p) {
-  int score = 0;
-  int count_player = 0;
-  int count_opponent = 0;
+long int ConnectFourUtils::utility_function(const State * s, MiniMax::Player p) {
+  long int score = 0;
+  int count_player = 0, count_opponent = 0;
+  int last_index = 0;
+  int sequence_value = 0, sequence_size = 0;
+  MiniMax::Player actual_player = MiniMax::NONE;
 
   //vertical count
+  for(int i = 0; i < s->width; i++) {
+	int j = 0;
+    while(j < s->board[i]->size()) {
+	  last_index = j;
+	  actual_player = s->at(i,j);
+	  while(s->at(i,j) == actual_player)
+	    j++;
+
+	  sequence_size = j-last_index;
+	  sequence_value = pow(sequence_size,sequence_size);
+	  if(actual_player != p) {
+	    score += sequence_value;
+	    if(sequence_size > 4)
+	      score = std::numeric_limits<int>::max();
+	  } else {
+	    score -= sequence_value;
+	    if(sequence_size > 4)
+	      score = std::numeric_limits<int>::min();
+	  }
+	  sequence_value = 0;
+	}
+	sequence_value = 0;
+  }
+  
+  //horizontal count
+  /*
+  for(int j = 0; j < s->height; j++) {
+    int i = 0;
+	while(i < s->width) {
+      last_index = i;
+	  try {
+	    std::cout << "UHUUU" << std::endl;
+		std::cout << i << ", " << j << std::endl;
+        actual_player = s->at(i,j);
+		std::cout << i << ", " << j << std::endl;
+	    while(s->at(i,j) == actual_player) {
+          i++;
+		}
+		std::cout << i << ", " << j << std::endl;
+	    sequence_size = i-last_index;
+	    sequence_value = pow(sequence_size,sequence_size);
+	    if(actual_player == p) {
+	      if(sequence_size > 4)
+	        score = std::numeric_limits<int>::max();
+	      score += sequence_value;
+	    } else {
+	      if(sequence_size > 4)
+	        score = std::numeric_limits<int>::min();
+	      score -= sequence_value;
+	    }
+	    sequence_value = 0;
+	    std::cout << "temos um score: " << score << std::endl;
+	  } catch (std::out_of_range& oor) {
+	    actual_player = MiniMax::NONE;
+	    i++;
+	    std::cout << "PEGOU" << std::endl;
+	  }
+	}
+  }
+*/
+
+/*
   for(int i = 0; i < s->width; i++) {
     for(int j = 0; j < s->board[i]->size(); j++) {
 	  try {
@@ -68,17 +133,36 @@ int ConnectFourUtils::utility_function(const State * s, MiniMax::Player p) {
 	  score = std::numeric_limits<int>::max();
 	if(count_opponent >= 4)
 	  score = std::numeric_limits<int>::min();
-	std::cout << score << std::endl;
   }
+*/
 
   //horizontal count
   /*
   for(int j = 0; j < s->height; j++) {
     for(int i = 0; i < s->width; i++) {
+	  try {
+        if(s->at(i,j) == p) {
+		  count_player++;
+		  count_opponent = 0;
+		} else {
+		  count_opponent++;
+		  count_player = 0;
+		}
+	  } catch (std::out_of_range& oor) {
+	    count_player = 0;
+		count_opponent = 0;
+	  }
 	}
+    if(count_player > 0)
+	  score += count_player^count_player;
+	if(count_opponent > 0)
+	  score -= count_opponent^count_opponent;
+	if(count_player >= 4)
+	  score = std::numeric_limits<int>::max();
+	if(count_opponent >= 4)
+	  score = std::numeric_limits<int>::min();
   }
   */
-
   return score;
 }
 

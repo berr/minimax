@@ -31,7 +31,7 @@ namespace MiniMax {
     const T* start,
     Player starting_player,
     std::list<const T*>* (next_nodes) (const T*, Player player),
-    int (helper_function) (const T*, Player p),
+    long int (helper_function) (const T*, Player p),
     int depth) {
 
     std::list<const T*>* children = next_nodes(start, starting_player);
@@ -54,7 +54,7 @@ namespace MiniMax {
     const T* start,
     Player starting_player,
     std::list<const T*>* (next_nodes) (const T*, Player player),
-    int (helper_function) (const T*, Player p),
+    long int (helper_function) (const T*, Player p),
     int alpha,
     int beta, 
     int depth) {
@@ -109,7 +109,7 @@ namespace MiniMax {
     const T* start,
     Player starting_player,
     std::list<const T*>* (next_nodes) (const T*, Player player),
-    int (helper_function) (const T*, Player p),
+    long int (helper_function) (const T*, Player p),
     int alpha,
     int beta, 
     int depth) {
